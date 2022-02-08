@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html
+  lang="ja"
+
+data-admin-domain="//blog.hatena.ne.jp"
+data-admin-origin="https://blog.hatena.ne.jp"
+data-author="naomasabit"
+data-avail-langs="ja en"
+data-blog="naomasa.hatenablog.com"
+data-blog-host="naomasa.hatenablog.com"
+data-blog-is-public="1"
+data-blog-name="DX企業で働くエンジニアのブログ"
+data-blog-owner="naomasabit"
+data-blog-uri="https://www.blockchainengineer.tokyo/"
+data-blog-uuid="8599973812292341519"
+data-blogs-uri-base="https://www.blockchainengineer.tokyo"
+data-brand="pro"
+data-data-layer="{&quot;hatenablog&quot;:{&quot;analytics&quot;:{&quot;brand_property_id&quot;:&quot;&quot;,&quot;separated_property_id&quot;:&quot;UA-29716941-23&quot;,&quot;property_id&quot;:&quot;UA-106568293-1&quot;,&quot;non_sampling_property_id&quot;:&quot;&quot;},&quot;page_id&quot;:&quot;entry&quot;,&quot;blog&quot;:{&quot;is_public&quot;:&quot;true&quot;,&quot;uri&quot;:&quot;https://www.blockchainengineer.tokyo/&quot;,&quot;is_sleeping&quot;:&quot;false&quot;,&quot;enable_keyword_link&quot;:&quot;true&quot;,&quot;content_seems_japanese&quot;:&quot;true&quot;,&quot;disable_ads&quot;:&quot;pro&quot;,&quot;entry_show_footer_related_entries&quot;:&quot;false&quot;,&quot;is_responsive_view&quot;:&quot;false&quot;,&quot;owner_name&quot;:&quot;naomasabit&quot;,&quot;force_pc_view&quot;:&quot;false&quot;,&quot;name&quot;:&quot;DX\u4f01\u696d\u3067\u50cd\u304f\u30a8\u30f3\u30b8\u30cb\u30a2\u306e\u30d6\u30ed\u30b0&quot;,&quot;enable_ads&quot;:&quot;false&quot;,&quot;lang&quot;:&quot;ja&quot;},&quot;admin&quot;:{},&quot;permalink_entry&quot;:{&quot;title&quot;:&quot;Ethereum\u306eRLP\u30a8\u30f3\u30b3\u30fc\u30c7\u30a3\u30f3\u30b0\u306b\u3064\u3044\u3066-Yellow Paper AppendixB\u3088\u308a&quot;,&quot;categories&quot;:&quot;Ethereum&quot;,&quot;hour&quot;:&quot;10&quot;,&quot;author_name&quot;:&quot;naomasabit&quot;,&quot;date&quot;:&quot;2018-11-21&quot;,&quot;uri&quot;:&quot;https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding&quot;},&quot;router_type&quot;:&quot;blogs&quot;,&quot;pro&quot;:&quot;pro&quot;,&quot;brand&quot;:&quot;pro&quot;}}"
+data-device="pc"
+data-dont-recommend-pro="false"
+data-global-domain="https://hatenablog.com"
+data-globalheader-color="b"
+data-globalheader-type="pc"
+data-has-touch-view="1"
+data-help-url="https://help.hatenablog.com"
+data-page="entry"
+data-parts-domain="https://hatenablog-parts.com"
+data-plus-available="1"
+data-pro="true"
+data-router-type="blogs"
+data-sentry-dsn="https://03a33e4781a24cf2885099fed222b56d@sentry.io/1195218"
+data-sentry-environment="production"
+data-sentry-sample-rate="0.1"
+data-static-domain="https://cdn.blog.st-hatena.com"
+data-version="02340d3a61b9a29e7b1c42d7a6b11365"
+
+
+
+
+  data-initial-state="{}"
+
+  >
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  
+
+
+
+  
+
+  <meta name="robots" content="max-image-preview:large" />
+
+
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=7; IE=9; IE=10; IE=11" />
+  <title>EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより - DX企業で働くエンジニアのブログ</title>
+
+  
+  <link rel="canonical" href="https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding"/>
+
+
+
+  
+  
+
+<meta itemprop="name" content="EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより - DX企業で働くエンジニアのブログ"/>
+
+  <meta itemprop="image" content="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121101055.jpg"/>
+
+
+  <meta property="og:title" content="EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより - DX企業で働くエンジニアのブログ"/>
+<meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding"/>
+
+  <meta property="og:image" content="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121101055.jpg"/>
+
+<meta property="og:image:alt" content="EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより - DX企業で働くエンジニアのブログ"/>
+    <meta property="og:description" content="EthereumのYellowPaperを元に、Ethereum独自のRLPエンコーディングについて実験してみました。 RLPエンコーディングとは 5つのエンコードパターン バイト配列の場合 バイト配列でない場合 実験に用いたコード バイト配列をRLPエンコーディングする場合 1. バイト配列が単純な1バイトで、128より小さい時、そのままアウトプットする 2. バイト配列が56バイトより小さい場合、バイト配列の長さ＋128に等しいバイトを加えた配列に等しくなる 3. 他の場合、ビッグエンディアン整数として解釈した時に最小となる入力バイト配列の長さを、接頭辞として入力に付与する。加えて、その長…" />
+<meta property="og:site_name" content="DX企業で働くエンジニアのブログ"/>
+
+  <meta property="article:published_time" content="1542762526" />
+
+    <meta property="article:tag" content="Ethereum" />
+      <meta name="twitter:card"  content="summary_large_image" />
+    <meta name="twitter:image" content="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121101055.jpg" />  <meta name="twitter:title" content="EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより - DX企業で働くエンジニアのブログ" />    <meta name="twitter:description" content="EthereumのYellowPaperを元に、Ethereum独自のRLPエンコーディングについて実験してみました。 RLPエンコーディングとは 5つのエンコードパターン バイト配列の場合 バイト配列でない場合 実験に用いたコード バイト配列をRLPエンコーディングする場合 1. バイト配列が単純な1バイトで、128…" />  <meta name="twitter:app:name:iphone" content="はてなブログアプリ" />
+  <meta name="twitter:app:id:iphone" content="583299321" />
+  <meta name="twitter:app:url:iphone" content="hatenablog:///open?uri=https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" />  <meta name="twitter:site" content="@naomasabit" />
+  
+    <meta name="description" content="EthereumのYellowPaperを元に、Ethereum独自のRLPエンコーディングについて実験してみました。 RLPエンコーディングとは 5つのエンコードパターン バイト配列の場合 バイト配列でない場合 実験に用いたコード バイト配列をRLPエンコーディングする場合 1. バイト配列が単純な1バイトで、128より小さい時、そのままアウトプットする 2. バイト配列が56バイトより小さい場合、バイト配列の長さ＋128に等しいバイトを加えた配列に等しくなる 3. 他の場合、ビッグエンディアン整数として解釈した時に最小となる入力バイト配列の長さを、接頭辞として入力に付与する。加えて、その長…" />
+    <meta name="google-site-verification" content="F6OXzdgT6_uQ_4Gnf58CQnXDSeF9Cm4L5sX1pHVT4mY" />
+    <meta name="keywords" content="ブロックチェーンエンジニア,ブロックチェーン エンジニア,ブロックチェーン,ビットコイン,ERC20,ERC721,Ethereum,仮想通貨,暗号通貨," />
+
+
+  
+<script
+  id="embed-gtm-data-layer-loader"
+  data-data-layer-page-specific="{&quot;hatenablog&quot;:{&quot;blogs_permalink&quot;:{&quot;blog_hide_afc_func&quot;:&quot;true&quot;,&quot;is_author_pro&quot;:&quot;true&quot;,&quot;has_related_entries_with_elasticsearch&quot;:&quot;false&quot;,&quot;brand_hide_afc&quot;:&quot;false&quot;,&quot;entry_afc_issued&quot;:&quot;false&quot;,&quot;blog_hide_afc_field&quot;:&quot;false&quot;,&quot;blog_afc_issued&quot;:&quot;false&quot;,&quot;is_blog_sleeping&quot;:&quot;false&quot;,&quot;blog_struct_hide_afc&quot;:&quot;true&quot;}}}"
+>
+(function() {
+  function loadDataLayer(elem, attrName) {
+    if (!elem) { return {}; }
+    var json = elem.getAttribute(attrName);
+    if (!json) { return {}; }
+    return JSON.parse(json);
+  }
+
+  var globalVariables = loadDataLayer(
+    document.documentElement,
+    'data-data-layer'
+  );
+  var pageSpecificVariables = loadDataLayer(
+    document.getElementById('embed-gtm-data-layer-loader'),
+    'data-data-layer-page-specific'
+  );
+
+  var variables = [globalVariables, pageSpecificVariables];
+
+  if (!window.dataLayer) {
+    window.dataLayer = [];
+  }
+
+  for (var i = 0; i < variables.length; i++) {
+    window.dataLayer.push(variables[i]);
+  }
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P4CXTW');</script>
+<!-- End Google Tag Manager -->
+
+
+
+
+  <link rel="shortcut icon" href="https://www.blockchainengineer.tokyo/icon/favicon">
+<link rel="apple-touch-icon" href="https://www.blockchainengineer.tokyo/icon/touch">
+<link rel="icon" sizes="192x192" href="https://www.blockchainengineer.tokyo/icon/link">
+
+  
+
+<link rel="alternate" type="application/atom+xml" title="Atom" href="https://www.blockchainengineer.tokyo/feed"/>
+<link rel="alternate" type="application/rss+xml" title="RSS2.0" href="https://www.blockchainengineer.tokyo/rss"/>
+<link rel="alternate" type="application/json+oembed" href="https://hatenablog.com/oembed?url=https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding&amp;format=json" title="oEmbed Profile of EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより"/>
+<link rel="alternate" type="text/xml+oembed" href="https://hatenablog.com/oembed?url=https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding&amp;format=xml" title="oEmbed Profile of EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより"/>
+  
+  <link rel="author" href="http://www.hatena.ne.jp/naomasabit/">
+
+  
+
+
+  
+    <link rel="stylesheet" type="text/css" href="https://cdn.blog.st-hatena.com/css/blog.css?version=7aeb6b46dcbe5188537ab26b0153bf3ddd07825a&amp;env=production"/>
+
+    
+  <link rel="stylesheet" type="text/css" href="https://usercss.blog.st-hatena.com/blog_style/8599973812292341519/ea67aa866dd4d88556e4d039ff06d7d1585a02e7"/>
+  
+  
+
+  
+
+  
+<script> </script>
+
+  
+<style>
+  div#google_afc_user,
+  div.google-afc-user-container,
+  div.google_afc_image,
+  div.google_afc_blocklink {
+      display: block !important;
+  }
+</style>
+
+
+  
+
+  
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","dateModified":"2018-12-08T20:30:09+09:00","datePublished":"2018-11-21T10:08:46+09:00","headline":"EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより","image":["https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121101055.jpg"]}</script>
+
+  
+
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+  <body class="page-entry category-Ethereum">
+    
+
+    
+    
+    
+    
+      <nav class="
+        blog-controlls
+        
+      ">
+        <div class="blog-controlls-subscribe" data-test-blog-controlls-subscribe>
+          <a href="https://blog.hatena.ne.jp/naomasabit/naomasa.hatenablog.com/subscribe?utm_campaign=subscribe_blog&amp;utm_source=blogs_topright_button&amp;utm_medium=button" class="blog-controlls-subscribe-btn">
+            読者になる
+          </a>
+        </div>
+      </nav>
+    
+
+    <div id="globalheader-container"
+  data-brand="hatenablog"
+  
+  
+  
+  >
+  <iframe id="globalheader" height="37" frameborder="0" allowTransparency="true"></iframe>
+</div>
+
+
+    <div id="container">
+      <div id="container-inner">
+        <header id="blog-title" data-brand="hatenablog">
+  <div id="blog-title-inner" >
+    <div id="blog-title-content">
+      <h1 id="title"><a href="https://www.blockchainengineer.tokyo/">DX企業で働くエンジニアのブログ</a></h1>
+      
+        <h2 id="blog-description">DXエンジニアとして働いています。ブロックチェーンも時々やります</h2>
+      
+    </div>
+  </div>
+</header>
+
+        
+
+        
+        
+
+
+
+
+<div id="content" class="hfeed"
+  
+  >
+  <div id="content-inner">
+    <div id="wrapper">
+      <div id="main">
+        <div id="main-inner">
+          
+
+
+          
+  
+  <!-- google_ad_section_start -->
+  <!-- rakuten_ad_target_begin -->
+  
+  
+  
+
+  
+
+  
+    
+      
+        <article class="entry hentry test-hentry js-entry-article date-first autopagerize_page_element chars-7600 words-800 mode-markdown entry-odd" id="entry-10257846132673494281" data-keyword-campaign="" data-uuid="10257846132673494281" data-publication-type="entry">
+  <div class="entry-inner">
+    <header class="entry-header">
+  
+    <div class="date entry-date first">
+    <a href="https://www.blockchainengineer.tokyo/archive/2018/11/21" rel="nofollow">
+      <time datetime="2018-11-21T01:08:46Z" title="2018-11-21T01:08:46Z">
+        <span class="date-year">2018</span><span class="hyphen">-</span><span class="date-month">11</span><span class="hyphen">-</span><span class="date-day">21</span>
+      </time>
+    </a>
+  </div>
+  <h1 class="entry-title">
+  <a href="https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding" class="entry-title-link bookmark">EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより</a>
+</h1>
+
+  
+  
+
+  <div class="entry-categories categories">
+    
+    <a href="https://www.blockchainengineer.tokyo/archive/category/Ethereum" class="entry-category-link category-Ethereum">Ethereum</a>
+    
+  </div>
+
+
+  
+
+  
+
+</header>
+
+    
+
+
+    <div class="entry-content">
+  
+    <p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121101055.jpg" alt="f:id:naomasabit:20181121101055j:plain" title="f:id:naomasabit:20181121101055j:plain" class="hatena-fotolife" itemprop="image"></span></p>
+
+<p><a href="https://github.com/ethereum/yellowpaper">EthereumのYellowPaper</a>を元に、Ethereum独自のRLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>について実験してみました。</p>
+
+<ul class="table-of-contents">
+    <li><a href="#RLPエンコーディングとは">RLPエンコーディングとは</a></li>
+    <li><a href="#5つのエンコードパターン">5つのエンコードパターン</a><ul>
+            <li><a href="#バイト配列の場合">バイト配列の場合</a></li>
+            <li><a href="#バイト配列でない場合">バイト配列でない場合</a></li>
+        </ul>
+    </li>
+    <li><a href="#実験に用いたコード">実験に用いたコード</a></li>
+    <li><a href="#バイト配列をRLPエンコーディングする場合">バイト配列をRLPエンコーディングする場合</a><ul>
+            <li><a href="#1-バイト配列が単純な1バイトで128より小さい時そのままアウトプットする">1. バイト配列が単純な1バイトで、128より小さい時、そのままアウトプットする</a></li>
+            <li><a href="#2-バイト配列が56バイトより小さい場合バイト配列の長さ128に等しいバイトを加えた配列に等しくなる">2. バイト配列が56バイトより小さい場合、バイト配列の長さ＋128に等しいバイトを加えた配列に等しくなる</a></li>
+            <li><a href="#3-他の場合ビッグエンディアン整数として解釈した時に最小となる入力バイト配列の長さを接頭辞として入力に付与する加えてその長さに183を足した長さを接頭辞に付与する">3. 他の場合、ビッグエンディアン整数として解釈した時に最小となる入力バイト配列の長さを、接頭辞として入力に付与する。加えて、その長さに183を足した長さを接頭辞に付与する</a></li>
+        </ul>
+    </li>
+    <li><a href="#バイト配列以外をRLPエンコーディングする場合">バイト配列以外をRLPエンコーディングする場合</a><ul>
+            <li><a href="#4-56バイト未満の場合">4. 56バイト未満の場合</a></li>
+            <li><a href="#5-56バイト以上の場合">5. 56バイト以上の場合</a></li>
+        </ul>
+    </li>
+    <li><a href="#まとめ">まとめ</a></li>
+</ul>
+
+<h1 id="RLPエンコーディングとは">RLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>とは</h1>
+
+<p>RLP(Recursive Length Prefix)<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>はEthereumで利用されるシンプルな符号化の方法です。</p>
+
+<p>独自に<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C9">エンコード</a>しており、内部DBに保存するとき、RLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>を利用しています</p>
+
+<blockquote><p>RLP is intended to be a highly minimalistic serialization format; its <a class="keyword" href="http://d.hatena.ne.jp/keyword/sole">sole</a> purpose is to store nested arrays of bytes. Unlike protobuf, BSON and other existing solutions, RLP does not attempt to define any specific data types such as booleans, floats, doubles or even integers</p></blockquote>
+
+<p><i>RLPは高度に最小化したシ<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%EA%A5%A2%A5%E9">リアラ</a>イゼーションフォーマットで、ネストされたByte配列を保存する目的のためにある。protobufやBSONなどとは違って、BooleanやFloat、DoubleやIntegerさえ定義しない</i></p>
+
+<p><a href="https://github.com/ethereum/wiki/wiki/Design-Rationale#rlp">Ethereum Wiki - Design-Rationale#rlp</a>より</p>
+
+<p><a href="https://github.com/ethereum/yellowpaper">Yellow Paper</a>には定義が書かれており、実際にコードを動かして実験してみます。</p>
+
+<h1 id="5つのエンコードパターン">5つの<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C9">エンコード</a>パターン</h1>
+
+<h2 id="バイト配列の場合">バイト配列の場合</h2>
+
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121093449.png" alt="f:id:naomasabit:20181121093449p:plain" title="f:id:naomasabit:20181121093449p:plain" class="hatena-fotolife" itemprop="image"></span></p>
+
+<blockquote><p>・If the byte-array contains solely a single byte and that single byte is less than 128, then the input is exactly equal to the output.</p>
+
+<p>・If the byte-array contains fewer than 56 bytes, then the output is equal to the input pre fixed by the byte equal to the length of the byte array plus 128.</p>
+
+<p>・Otherwise, the output is equal to the input prefixed by the minimal-length byte-array which when interpreted as a big-<a class="keyword" href="http://d.hatena.ne.jp/keyword/endian">endian</a> integer is equal to the length of the input byte array, which is itself prefixed by the number of bytes required to faithfully encode this length <a class="keyword" href="http://d.hatena.ne.jp/keyword/value">value</a> plus 183.</p></blockquote>
+
+<ol>
+<li>バイト配列が単純な1バイトで、128より小さい時、そのままアウトプットする</li>
+<li>バイト配列が56バイトより小さい場合、バイト配列の長さ＋128に等しいバイトを加えた配列に等しくなる</li>
+<li>他の場合、ビッグ<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%C7%A5%A3%A5%A2%A5%F3">エンディアン</a>整数として解釈した時に最小となる入力バイト配列の長さを、接頭辞として入力に付与する。加えて、その長さに183を足した長さを接頭辞に付与する</li>
+</ol>
+
+
+<h2 id="バイト配列でない場合">バイト配列でない場合</h2>
+
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121093833.png" alt="f:id:naomasabit:20181121093833p:plain" title="f:id:naomasabit:20181121093833p:plain" class="hatena-fotolife" itemprop="image"></span></p>
+
+<blockquote><p>・If the concatenated serialisations of each contained item is less than 56 bytes in length, then the output is equal to that concatenation prefixed by the byte equal to the length of this byte array plus 192.</p>
+
+<p>・Otherwise, the output is equal to the concatenated serialisations prefixed by the minimal-length byte-array which when interpreted as a big-<a class="keyword" href="http://d.hatena.ne.jp/keyword/endian">endian</a> integer is equal to the length of the concatenated serialisations byte array, which is itself prefixed by the number of bytes required to faithfully encode this length <a class="keyword" href="http://d.hatena.ne.jp/keyword/value">value</a> plus 247.</p></blockquote>
+
+<p>4.それぞれの項目について連結してシ<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%EA%A5%A2%A5%E9">リアラ</a>イゼーションが56バイト未満の長さの場合、アウトプットは、このバイト配列の長さに192を加えた長さに等しいバイトを接頭辞に加えたものになる</p>
+
+<p>5.それ以外の場合、ビッグ<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%C7%A5%A3%A5%A2%A5%F3">エンディアン</a>の整数として解釈した最小の長さを接頭辞に加える。更に加えた接頭辞をビッグ<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%C7%A5%A3%A5%A2%A5%F3">エンディアン</a>の整数として解釈した時の長さに247を加えた長さを接頭辞に付与する</p>
+
+<h1 id="実験に用いたコード">実験に用いたコード</h1>
+
+<p>rlp<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>には、<a href="https://github.com/ethereum/go-ethereum/tree/master/rlp">go-ethereumのrlpパッケージ</a>を使います。</p>
+
+<p>実験コード</p>
+
+<pre class="code lang-go" data-lang="go" data-unlink><span class="synStatement">package</span> main
+
+<span class="synStatement">import</span> (
+    <span class="synConstant">&quot;encoding/hex&quot;</span>
+    <span class="synConstant">&quot;fmt&quot;</span>
+    <span class="synConstant">&quot;github.com/ethereum/go-ethereum/rlp&quot;</span>
+)
+
+<span class="synComment">//バイト配列の場合</span>
+<span class="synStatement">var</span> case1Inputs = []<span class="synType">uint32</span>{<span class="synConstant">1</span>, <span class="synConstant">2</span>, <span class="synConstant">127</span>}
+<span class="synStatement">var</span> case2Inputs = []<span class="synType">string</span>{<span class="synConstant">&quot;dog&quot;</span>, <span class="synConstant">&quot;doge&quot;</span>, <span class="synConstant">&quot;cat&quot;</span>, <span class="synConstant">&quot;0123456789012345678901234567890123456789012345678901234&quot;</span>}
+<span class="synStatement">var</span> case3Inputs = []<span class="synType">string</span>{<span class="synConstant">&quot;01234567890123456789012345678901234567890123456789012345&quot;</span>}
+<span class="synComment">//バイト配列以外の場合</span>
+<span class="synStatement">var</span> case4Inputs = []<span class="synType">uint</span>{<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>}
+<span class="synStatement">var</span> case5Inputs = []<span class="synType">uint</span>{<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>,<span class="synConstant">4</span>,<span class="synConstant">5</span>,<span class="synConstant">6</span>,<span class="synConstant">7</span>,<span class="synConstant">8</span>,<span class="synConstant">9</span>,<span class="synConstant">10</span>,<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>,<span class="synConstant">4</span>,<span class="synConstant">5</span>,<span class="synConstant">6</span>,<span class="synConstant">7</span>,<span class="synConstant">8</span>,<span class="synConstant">9</span>,<span class="synConstant">10</span>,<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>,<span class="synConstant">4</span>,<span class="synConstant">5</span>,<span class="synConstant">6</span>,<span class="synConstant">7</span>,<span class="synConstant">8</span>,<span class="synConstant">9</span>,<span class="synConstant">10</span>,<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>,<span class="synConstant">4</span>,<span class="synConstant">5</span>,<span class="synConstant">6</span>,<span class="synConstant">7</span>,<span class="synConstant">8</span>,<span class="synConstant">9</span>,<span class="synConstant">10</span>,<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>,<span class="synConstant">4</span>,<span class="synConstant">5</span>,<span class="synConstant">6</span>,<span class="synConstant">7</span>,<span class="synConstant">8</span>,<span class="synConstant">9</span>,<span class="synConstant">10</span>,<span class="synConstant">1</span>,<span class="synConstant">2</span>,<span class="synConstant">3</span>,<span class="synConstant">4</span>,<span class="synConstant">5</span>,<span class="synConstant">6</span>}
+
+<span class="synStatement">func</span> rlpEnc(val <span class="synStatement">interface</span>{}) {
+    encoded, err := rlp.EncodeToBytes(val)
+    <span class="synStatement">if</span> err != <span class="synStatement">nil</span> {
+        <span class="synStatement">panic</span>(err)
+    }
+    fmt.Println(<span class="synConstant">&quot;input:&quot;</span>, val, <span class="synConstant">&quot;=&gt; encoded:&quot;</span>, hex.EncodeToString(encoded))
+
+}
+
+<span class="synStatement">func</span> main() {
+    fmt.Println(<span class="synConstant">&quot;case1&quot;</span>)
+    <span class="synStatement">for</span> _, input := <span class="synStatement">range</span> case1Inputs {
+        rlpEnc(input)
+    }
+
+    fmt.Println(<span class="synConstant">&quot;case2&quot;</span>)
+    <span class="synStatement">for</span> _, input := <span class="synStatement">range</span> case2Inputs {
+        rlpEnc(input)
+    }
+
+    fmt.Println(<span class="synConstant">&quot;case3&quot;</span>)
+    <span class="synStatement">for</span> _, input := <span class="synStatement">range</span> case3Inputs {
+        rlpEnc(input)
+    }
+
+    fmt.Println(<span class="synConstant">&quot;case4&quot;</span>)
+    rlpEnc(case4Inputs)
+
+    fmt.Println(<span class="synConstant">&quot;case5&quot;</span>)
+    rlpEnc(case5Inputs)
+}
+</pre>
+
+
+<p>出力結果</p>
+
+<pre class="code" data-lang="" data-unlink>case1
+input: 1 =&gt; encoded: 01
+input: 2 =&gt; encoded: 02
+input: 127 =&gt; encoded: 7f
+case2
+input: dog =&gt; encoded: 83646f67
+input: doge =&gt; encoded: 84646f6765
+input: cat =&gt; encoded: 83636174
+input: 0123456789012345678901234567890123456789012345678901234 =&gt; encoded: b730313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334
+case3
+input: 01234567890123456789012345678901234567890123456789012345 =&gt; encoded: b8383031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435
+case4
+input: [1 2 3] =&gt; encoded: c3010203
+case5
+input: [1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6] =&gt; encoded: f8380102030405060708098001020304050607080980010203040506070809800102030405060708098001020304050607080980010203040506</pre>
+
+
+<h1 id="バイト配列をRLPエンコーディングする場合">バイト配列をRLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>する場合</h1>
+
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121093449.png" alt="f:id:naomasabit:20181121093449p:plain" title="f:id:naomasabit:20181121093449p:plain" class="hatena-fotolife" itemprop="image"></span></p>
+
+<h2 id="1-バイト配列が単純な1バイトで128より小さい時そのままアウトプットする">1. バイト配列が単純な1バイトで、128より小さい時、そのままアウトプットする</h2>
+
+<p>バイト配列が単純な1バイトで、128より小さい時、そのままアウトプットするケースを見てみましょう。</p>
+
+<p>encodedを16進数で考えると入力値と同じ数値が出てきています。</p>
+
+<pre class="code" data-lang="" data-unlink>input: 1 =&gt; encoded: 01
+input: 2 =&gt; encoded: 02
+input: 127 =&gt; encoded: 7f</pre>
+
+
+<h2 id="2-バイト配列が56バイトより小さい場合バイト配列の長さ128に等しいバイトを加えた配列に等しくなる">2. バイト配列が56バイトより小さい場合、バイト配列の長さ＋128に等しいバイトを加えた配列に等しくなる</h2>
+
+<p>コードでdogをRLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>をした結果を見てみます。</p>
+
+<pre class="code" data-lang="" data-unlink>input: dog =&gt; encoded: 83646f67</pre>
+
+
+<p><a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C9">エンコード</a>後の数値は<code>83 64 6f 67</code>の要素に分解できます。</p>
+
+<p>左から見てみましょう。83は16進数であり、10進数で考えると131に等しくなります。（16*8 + 3 = 131）</p>
+
+<p>この131が<code>バイト配列の長さ＋128</code>に等しいバイトを加えた数`と等しくなるはずです。バイト配列の長さについて、dogは3バイトのため、合計は131になります。</p>
+
+<p><code>
+len(dog) + 128 = 3 + 128 = 131
+</code></p>
+
+<p>131は16進数では0x83となり、一致することがわかります。</p>
+
+<p>次の<code>0x64</code>,<code>0x6f</code>,<code>0x67</code>についてはそれぞれd,o,gと対応する数値です。</p>
+
+<p>同様に、dogeでRLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>をした結果を見てみます。</p>
+
+<pre class="code" data-lang="" data-unlink>input: doge =&gt; encoded: 84646f6765</pre>
+
+
+<p><a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C9">エンコード</a>後の数値は<code>84 64 6f 67 65</code>の要素に分解できます。</p>
+
+<p>84は16進数であり、10進数で考えると132に等しくなります。</p>
+
+<p>dog同様に、<code>バイト配列の長さ+128</code>に等しいバイトを計算すると、今度はdogeで4バイトの長さのため<code>4+128=132</code>になります。</p>
+
+<p>次の<code>0x64</code>,<code>0x6f</code>,<code>0x67</code>,<code>0x65</code>についてはそれぞれd,o,g,eと対応する数値になリます。</p>
+
+<h2 id="3-他の場合ビッグエンディアン整数として解釈した時に最小となる入力バイト配列の長さを接頭辞として入力に付与する加えてその長さに183を足した長さを接頭辞に付与する">3. 他の場合、ビッグ<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%C7%A5%A3%A5%A2%A5%F3">エンディアン</a>整数として解釈した時に最小となる入力バイト配列の長さを、接頭辞として入力に付与する。加えて、その長さに183を足した長さを接頭辞に付与する</h2>
+
+<pre class="code" data-lang="" data-unlink>input: 01234567890123456789012345678901234567890123456789012345 =&gt; encoded:b8383031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435
+0138 / 0x0204
+0xb8 : 183 + LEN(BE(LEN(input))) = 183 + LEN([38]) = 183 + 1 = 184 = 0xb8
+0x38 : BE(LEN(input)) = BE(56) = BE(0x38) = 0x38
+0x30 : 0, 0x31: 1, … 0x35 : 5</pre>
+
+
+<p><a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C9">エンコード</a>結果は</p>
+
+<pre class="code" data-lang="" data-unlink>b8383031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435</pre>
+
+
+<p>です。</p>
+
+<p><b>接頭辞b838</b>を見ます。</p>
+
+<p>後の0x38から確認します。</p>
+
+<p>0x38は<code>ビッグエンディアン整数として解釈した時に最小となる入力バイト配列の長さを、接頭辞として入力に付与する</code>でついたものになります。</p>
+
+<p>インプットの長さは56バイトであり16進数では0x38となるため解釈が合います。</p>
+
+<p>次に一番頭の0xb8を確認します。<code>加えて、その長さに183を足した長さを接頭辞に付与する</code>となります。</p>
+
+<p>接頭辞としてついた分は0x38だけです。つまり、1個だけになります。</p>
+
+<p><code>183 + 1 = 184</code>がつくことになります。184を16進数に直すと0xb8となり、計算通りです。</p>
+
+<p>接頭辞以降は<code>303132...</code>と続いています。123...というインプットに対応する16進数が連なっている結果です。</p>
+
+<h1 id="バイト配列以外をRLPエンコーディングする場合">バイト配列以外をRLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>する場合</h1>
+
+<p><span itemscope itemtype="http://schema.org/Photograph"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/n/naomasabit/20181121/20181121093833.png" alt="f:id:naomasabit:20181121093833p:plain" title="f:id:naomasabit:20181121093833p:plain" class="hatena-fotolife" itemprop="image"></span></p>
+
+<h2 id="4-56バイト未満の場合">4. 56バイト未満の場合</h2>
+
+<p>次はバイト配列以外のパターンを見ていきます。56バイト未満の場合の{1 2 3}を見てみます。</p>
+
+<pre class="code" data-lang="" data-unlink>input: [1 2 3] =&gt; encoded: c3010203</pre>
+
+
+<p>uint{1,2,3}のinputに対してはprefix C3がついて、後ろに010203と続いています。</p>
+
+<p>192は10進数に直すと<code>0xC0</code>です。数字が3個あるため<code>0xC0 + 0x03 = 0xC3</code>となります。<code>c3010203</code>となっています。</p>
+
+<p>定義は<code>(192 + ‖s(x)‖)・s(x)</code>でした。</p>
+
+<ul>
+<li>192 + ‖s(x)‖ = 192 + 3 = 0xc3</li>
+<li>s(x) = 010203</li>
+</ul>
+
+
+<p>なので当てはめると想定通りの結果になっていることがわかります。</p>
+
+<h2 id="5-56バイト以上の場合">5. 56バイト以上の場合</h2>
+
+<p>今度は56バイトをインプットにしてみます。</p>
+
+<pre class="code" data-lang="" data-unlink>input: [1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6 7 8 9 10 1 2 3 4 5 6] =&gt; encoded: f8380102030405060708090a0102030405060708090a0102030405060708090a0102030405060708090a0102030405060708090a010203040506</pre>
+
+
+<p>接頭辞はf838です。</p>
+
+<p>0xf8は10進数にすると248,</p>
+
+<p>0x38は10進数にすると56です。</p>
+
+<ul>
+<li><p>247 + ‖BE(‖s(x)‖)‖ … 247 + 1 = 0xf7 + 0x01 = 0xf8</p></li>
+<li><p>BE(‖s(x)‖) … 56 = 0x38</p></li>
+<li><p>s(x) … 01020304050607...0506</p></li>
+</ul>
+
+
+<p>となり、想定通りの結果となります。</p>
+
+<h1 id="まとめ">まとめ</h1>
+
+<p>RLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>は独特の形式ですが、実はこう見ると単純なつなぎ合わせで理解できることがわかります。</p>
+
+<p>Etheruem内部のデータを理解する際には、RLPの<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C9">エンコード</a>・デコードを利用する機会も多そうですが、うまく利用していけば符号化前のデータも取れそうで解釈しやすそうです。</p>
+
+<p>先日した発表でもRLP<a class="keyword" href="http://d.hatena.ne.jp/keyword/%A5%A8%A5%F3%A5%B3%A1%BC%A5%C7%A5%A3%A5%F3%A5%B0">エンコーディング</a>の話を含めています。参考までに。（この記事と内容は被っています）</p>
+
+<script async class="speakerdeck-embed" data-slide="22" data-id="ab23b216a34047e0966f7da4a2022dbf" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+
+    
+
+  
+</div>
+
+    
+  <footer class="entry-footer">
+    
+    <div class="entry-tags-wrapper">
+  <div class="entry-tags">  </div>
+</div>
+
+    <p class="entry-footer-section">
+  <span class="author vcard"><span class="fn" data-load-nickname="1" data-user-name="naomasabit" >naomasabit</span></span>
+  <span class="entry-footer-time"><a href="https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding"><time data-relative datetime="2018-11-21T01:08:46Z" title="2018-11-21T01:08:46Z" class="updated">2018-11-21 10:08</time></a></span>
+</p>
+
+    
+  
+  
+    <div class="hatena-star-container">
+    </div>
+    <div class="hatena-star-metadata" style="display: none">
+      <a class="hatena-star-permalink" href="https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding">EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより</a>
+    </div>
+  
+
+
+    
+<div class="social-buttons">
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+    
+
+    <div class="customized-footer">
+      
+
+        
+
+        
+        
+  <div class="entry-footer-html"><!--JQueryを使用-->
+<script type="text/javascript" src="https://cdn.blog.st-hatena.com/js/external/jquery.min.js?version=1.12.3"></script>
+<!--シェア数の取得-->
+<script>
+//はてなブックマークではてブ数を取得
+function get_social_count_hatebu(url, selcter) {
+jQuery.ajax({
+url:'https://b.hatena.ne.jp/entry.count?callback=?',
+dataType:'jsonp',
+data:{
+url:url
+},
+success:function(res){
+jQuery( selcter ).text( res || 0 );
+},
+error:function(){
+jQuery( selcter ).text('0');
+}
+});
+}
+jQuery(function(){
+get_social_count_hatebu('https://www.blockchainengineer.tokyo/entry/ethereum-rlp-encoding', '.hatebu-count');
+});
+</script>
+
+<style type=text/css>/*シェアボタン*/
+.share-flat .share-flat-inner .twitter-search{ background: #1DA1F2; width: 76%; height: auto; font-size: 12px; padding:4px; line-height: 0px;}.share-flat .share-flat-inner .twitter-search .share-text{    font-size: 12px;}.share-flat{  margin-bottom: 10px;    text-align: center;}.share-flat-inner a { position: relative;    padding:2px 0px;    display: inline-block;    width: 15%;    height: 40px;    line-height: 20px;    border-radius: 4px;    font-size: 16px;    text-align: center;    color: #ffffff;    text-decoration: none;}.share-flat .small-text{    font-size: 10px;}.share-flat .hatena-bookmark-button{    background: #00A4DE;}.share-flat .twitter-button{    background: #1DA1F2;}.share-flat .facebook-button{    background: #405BA7;}.share-flat .pocket-button{    background: #EE4256;}.share-flat .line-button{    background: #00C300;}.share-flat a:active{    opacity: 0.6;}
+</style>
+<!--シェアボタン-->
+<div class="share-flat">
+<div class="share-flat-inner">
+<!--はてブ-->
+<a href="https://b.hatena.ne.jp/entry/https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" class="hatena-bookmark-button" target="_blank" data-hatena-bookmark-title="EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより" data-hatena-bookmark-layout="simple" title="このエントリーをはてなブックマークに追加"><i class="blogicon-bookmark lg"></i><br> <span class="hatebu-count small-text"><i class="fa fa-spinner fa-spin"></i></span></a>
+<!--Facebook-->
+<a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" onclick="window.open(this.href, 'FBwindow', 'width=650, height=450, menubar=no, toolbar=no, scrollbars=yes'); return false;" class="facebook-button"><i class="blogicon-facebook lg"></i><br><span class="small-text">シェア</span></a>
+<!--Twitter-->
+<a href="https://twitter.com/intent/tweet?via=naomasabit&text=EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより-DX企業で働くエンジニアのブログ https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" target="_blank" class="twitter-button"><i class="blogicon-twitter lg"></i><br><span class="small-text">ツイート</span></a>
+<!--Pocket-->
+<a href="https://getpocket.com/edit?url=https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" class="pocket-button" target="_blank"><i class="fa fa-get-pocket"></i><br><span class="small-text">Pocket</span></a>
+<!--LINE-->
+<a href="https://line.me/R/msg/text/?EthereumのRLPエンコーディングについて-Yellow Paper AppendixBより https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" class="line-button" target="_blank"><i class="fa fa-comment"></i><br><span class="small-text">LINE</span></a>
+</div>
+<span style="font-size: 8px">この記事をシェアする</span>
+</div>
+</div>
+
+
+      
+    </div>
+    
+  <div class="comment-box js-comment-box">
+    
+    <ul class="comment js-comment">
+      <li class="read-more-comments" style="display: none;"><a>もっと読む</a></li>
+    </ul>
+    
+      <a class="leave-comment-title js-leave-comment-title">コメントを書く</a>
+    
+  </div>
+
+  </footer>
+
+  </div>
+</article>
+
+      
+      
+    
+  
+
+  
+  <!-- rakuten_ad_target_end -->
+  <!-- google_ad_section_end -->
+  
+  
+  
+  <div class="pager pager-permalink permalink">
+    
+      
+      <span class="pager-prev">
+        <a href="https://www.blockchainengineer.tokyo/entry/notification-system-blockchain" rel="prev">
+          <span class="pager-arrow">&laquo; </span>
+          「通報」というブロックチェーンのユース…
+        </a>
+      </span>
+    
+    
+      
+      <span class="pager-next">
+        <a href="https://www.blockchainengineer.tokyo/entry/activity-from-september-2018" rel="next">
+          最近の活動（2018年9月〜）
+          <span class="pager-arrow"> &raquo;</span>
+        </a>
+      </span>
+    
+  </div>
+
+
+  
+
+
+
+        </div>
+      </div>
+
+      <aside id="box1">
+  <div id="box1-inner">
+  </div>
+</aside>
+
+    </div><!-- #wrapper -->
+
+    
+<aside id="box2">
+  
+  <div id="box2-inner">
+    
+      
+
+<div class="hatena-module hatena-module-profile">
+  <div class="hatena-module-title">
+    プロフィール
+  </div>
+  <div class="hatena-module-body">
+    
+    <a href="https://www.blockchainengineer.tokyo/about" class="profile-icon-link">
+      <img src="https://cdn.profile-image.st-hatena.com/users/naomasabit/profile.png?1561709812"
+      alt="id:naomasabit" class="profile-icon" />
+    </a>
+    
+
+    
+    <span class="id">
+      <a href="https://www.blockchainengineer.tokyo/about" class="hatena-id-link"><span data-load-nickname="1" data-user-name="naomasabit">id:naomasabit</span></a>
+      
+  
+    
+    
+      <a href="http://blog.hatena.ne.jp/guide/pro" title="はてなブログPro"><i class="badge-type-pro">はてなブログPro</i></a>
+    
+  
+
+
+    </span>
+    
+
+    
+      <div class="profile-activities">
+      
+        最終更新:
+        <time datetime="2021-10-17T23:00:00Z" data-relative data-epoch="1634511600000" class="updated">2021-10-18 08:00</time>
+      
+    </div>
+    
+
+    
+    <div class="profile-description">
+      <p>Nao Hanamura<br />
+1990年生まれ。ブロックチェーンやDXを手がける企業でエンジニアとして働いています。</p><p><a href="https://www.blockchainengineer.tokyo/entry/profile">詳細プロフィール</a></p><p>ご相談やご依頼はお問い合わせフォームか、Twitter <a href="https://twitter.com/naomasabit">@naomasabit</a> までご連絡ください。<br />
+<a class="twitter-follow-button"
+  href="https://twitter.com/naomasabit" data-show-count="false" >Follow @naomasabit</a></p>
+
+    </div>
+    
+
+    
+      <div class="hatena-follow-button-box btn-subscribe js-hatena-follow-button-box"
+  
+  >
+
+  <a href="#" class="hatena-follow-button js-hatena-follow-button">
+    <span class="subscribing">
+      <span class="foreground">読者です</span>
+      <span class="background">読者をやめる</span>
+    </span>
+    <span class="unsubscribing" data-track-name="profile-widget-subscribe-button" data-track-once>
+      <span class="foreground">読者になる</span>
+      <span class="background">読者になる</span>
+    </span>
+  </a>
+  <div class="subscription-count-box js-subscription-count-box">
+    <i></i>
+    <u></u>
+    <span class="subscription-count js-subscription-count">
+    </span>
+  </div>
+</div>
+
+    
+
+    
+
+    <div class="profile-about">
+      <a href="https://www.blockchainengineer.tokyo/about">このブログについて</a>
+    </div>
+
+  </div>
+</div>
+
+    
+      <div class="hatena-module hatena-module-links">
+  <div class="hatena-module-title">
+    お問い合わせ
+  </div>
+  <div class="hatena-module-body">
+    <ul class="hatena-urllist">
+      
+        <li>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFlRzwBIIbqPXnm-fAwWODkGMVLhCFtP3fjOf8UcGLwAreTA/viewform?usp=sf_link">お問い合わせフォーム</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+    
+      
+<div class="hatena-module hatena-module-html">
+    <div class="hatena-module-title">著書</div>
+  <div class="hatena-module-body">
+    <p>Solidityの本を翻訳しました</p>
+<div class="hatena-asin-detail"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4065155371/naomasabit0e-22/" class="hatena-asin-detail-image-link" target="_blank" rel="noopener"><img src="https://m.media-amazon.com/images/I/51J79j2sdIL._SL500_.jpg" class="hatena-asin-detail-image" alt="Solidityプログラミング ブロックチェーン・スマートコントラクト開発入門 (KS情報科学専門書)" title="Solidityプログラミング ブロックチェーン・スマートコントラクト開発入門 (KS情報科学専門書)"></a><div class="hatena-asin-detail-info"><p class="hatena-asin-detail-title"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4065155371/naomasabit0e-22/" target="_blank" rel="noopener">Solidityプログラミング ブロックチェーン・スマートコントラクト開発入門 (KS情報科学専門書)</a></p><ul class="hatena-asin-detail-meta"><li><span class="hatena-asin-detail-label">作者:</span><a href="http://d.hatena.ne.jp/keyword/Ritesh%20Modi" class="keyword">Ritesh Modi</a></li><li>講談社</li></ul><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4065155371/naomasabit0e-22/" class="asin-detail-buy" target="_blank" rel="noopener">Amazon</a></div></div>
+
+  </div>
+</div>
+
+    
+      <div class="hatena-module hatena-module-search-box">
+  <div class="hatena-module-title">
+    検索
+  </div>
+  <div class="hatena-module-body">
+    <form class="search-form" role="search" action="https://www.blockchainengineer.tokyo/search" method="get">
+  <input type="text" name="q" class="search-module-input" value="" placeholder="記事を検索" required>
+  <input type="submit" value="検索" class="search-module-button" />
+</form>
+
+  </div>
+</div>
+
+    
+      
+<div class="hatena-module hatena-module-entries-access-ranking"
+  data-count="5"
+  data-source="access"
+  data-enable_customize_format="0"
+
+  data-display_entry_category="1"
+  data-display_entry_image="1"
+  data-display_entry_image_size_width="100"
+  data-display_entry_image_size_height="100"
+  data-display_entry_body_length="0"
+  data-display_entry_date="1"
+  data-display_entry_title_length="20"
+  data-restrict_entry_title_length="0"
+  data-display_bookmark_count="1"
+
+>
+  <div class="hatena-module-title">
+    
+      注目記事
+    
+  </div>
+  <div class="hatena-module-body">
+    
+  </div>
+</div>
+
+    
+      
+
+<div class="hatena-module hatena-module-archive" data-archive-type="default" data-archive-url="https://www.blockchainengineer.tokyo/archive">
+  <div class="hatena-module-title">
+    <a href="https://www.blockchainengineer.tokyo/archive">月別アーカイブ</a>
+  </div>
+  <div class="hatena-module-body">
+  </div>
+</div>
+
+    
+      
+
+<div class="hatena-module hatena-module-category">
+  <div class="hatena-module-title">
+    カテゴリー（整理中）
+  </div>
+  <div class="hatena-module-body">
+    <ul class="hatena-urllist">
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Ethereum" class="category-Ethereum">
+            Ethereum (27)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%83%81%E3%82%A7%E3%83%BC%E3%83%B3" class="category-ブロックチェーン">
+            ブロックチェーン (14)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/solidity" class="category-solidity">
+            solidity (10)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E6%9A%97%E5%8F%B7%E9%80%9A%E8%B2%A8" class="category-暗号通貨">
+            暗号通貨 (8)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E9%9B%91%E8%A8%98" class="category-雑記">
+            雑記 (7)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E4%BB%AE%E6%83%B3%E9%80%9A%E8%B2%A8" class="category-仮想通貨">
+            仮想通貨 (7)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3" class="category-セキュリティ">
+            セキュリティ (6)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Analytics" class="category-Analytics">
+            Analytics (6)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E5%8C%BF%E5%90%8D%E5%8C%96" class="category-匿名化">
+            匿名化 (5)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Monero" class="category-Monero">
+            Monero (5)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E6%8A%80%E8%A1%93%E6%9B%B8" class="category-技術書">
+            技術書 (4)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E3%82%AD%E3%83%A3%E3%83%AA%E3%82%A2" class="category-キャリア">
+            キャリア (4)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E7%A7%81%E4%BA%8B" class="category-私事">
+            私事 (3)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E3%83%8E%E3%83%BC%E3%83%89%E6%A7%8B%E7%AF%89" class="category-ノード構築">
+            ノード構築 (3)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" class="category-イベント">
+            イベント (3)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E8%AB%96%E6%96%87" class="category-論文">
+            論文 (3)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Bitcoin" class="category-Bitcoin">
+            Bitcoin (3)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/DX" class="category-DX">
+            DX (3)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/ethers.js" class="category-ethers.js">
+            ethers.js (2)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/ERC20" class="category-ERC20">
+            ERC20 (2)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/DEX" class="category-DEX">
+            DEX (2)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E3%83%97%E3%83%AD%E3%83%80%E3%82%AF%E3%83%88%E9%96%8B%E7%99%BA" class="category-プロダクト開発">
+            プロダクト開発 (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B" class="category-自己紹介">
+            自己紹介 (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/NFT" class="category-NFT">
+            NFT (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Truffle" class="category-Truffle">
+            Truffle (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/NEM" class="category-NEM">
+            NEM (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Litecoin" class="category-Litecoin">
+            Litecoin (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/ERC1820" class="category-ERC1820">
+            ERC1820 (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/ERC1400" class="category-ERC1400">
+            ERC1400 (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/ENS" class="category-ENS">
+            ENS (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/Byzantine%20Fault%20Tolerance" class="category-Byzantine-Fault-Tolerance">
+            Byzantine Fault Tolerance (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/BIP44" class="category-BIP44">
+            BIP44 (1)
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://www.blockchainengineer.tokyo/archive/category/BIP39" class="category-BIP39">
+            BIP39 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+    
+      
+<div class="hatena-module hatena-module-html">
+    <div class="hatena-module-title">プライバシーポリシー</div>
+  <div class="hatena-module-body">
+    当ブログのプライバシーポリシーは<a href="https://www.blockchainengineer.tokyo/privacy-policy">&#x3053;&#x3061;&#x3089;</a>をご覧ください。
+  </div>
+</div>
+
+    
+    
+  </div>
+</aside>
+
+
+  </div>
+</div>
+
+
+
+
+        
+
+        
+
+      </div>
+    </div>
+    
+<footer id="footer" data-brand="hatenablog">
+  <div id="footer-inner">
+    
+      <div style="display:none !important" class="guest-footer js-guide-register test-blogs-register-guide" data-action="guide-register">
+  <div class="guest-footer-content">
+    <h3>はてなブログをはじめよう！</h3>
+    <p>naomasabitさんは、はてなブログを使っています。あなたもはてなブログをはじめてみませんか？</p>
+    <div class="guest-footer-btn-container">
+      <div  class="guest-footer-btn">
+        <a class="btn btn-register js-inherit-ga" href="https://blog.hatena.ne.jp/register?via=200227" target="_blank">はてなブログをはじめる（無料）</a>
+      </div>
+      <div  class="guest-footer-btn">
+        <a href="https://hatenablog.com/guide" target="_blank">はてなブログとは</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <address class="footer-address">
+      <a href="https://www.blockchainengineer.tokyo/">
+        <img src="https://cdn.image.st-hatena.com/image/square/38d2d894bae270dcd5d2d126f25da3f21f5f93bf/backend=imagemagick;height=128;version=1;width=128/https%3A%2F%2Fcdn.user.blog.st-hatena.com%2Fblog_custom_icon%2F142048057%2F1561775312688916" width="16" height="16" alt="DX企業で働くエンジニアのブログ"/>
+        <span class="footer-address-name">DX企業で働くエンジニアのブログ</span>
+      </a>
+    </address>
+    <p class="services">
+      Powered by <a href="https://hatenablog.com/">Hatena Blog</a>
+      |
+        <a href="https://blog.hatena.ne.jp/-/abuse_report?target_url=https%3A%2F%2Fwww.blockchainengineer.tokyo%2Fentry%2Fethereum-rlp-encoding" class="report-abuse-link test-report-abuse-link" target="_blank">ブログを報告する</a>
+    </p>
+  </div>
+</footer>
+
+
+    
+
+    
+  
+    <script src="https://s.hatena.ne.jp/js/HatenaStar.js?20191001"></script>
+  
+
+
+    
+    
+
+<div class="quote-box">
+  <div class="tooltip-quote tooltip-quote-star">
+    <i class="blogicon-star" title="引用スターをつける"></i>
+  </div>
+  <div class="tooltip-quote tooltip-quote-stock">
+    <i class="blogicon-quote" title="引用をストック"></i>
+  </div>
+  <div class="tooltip-quote tooltip-quote-tweet js-tooltip-quote-tweet">
+    <a class="js-tweet-quote" target="_blank" data-track-name="quote-tweet" data-track-once><i class="blogicon-twitter" title="引用してツイートする"></i></a>
+  </div>
+</div>
+
+<div class="message-box" id="quote-star-message-box" style="display: none; position: absolute;">
+  スターをつけました
+</div>
+
+<div class="quote-stock-panel" id="quote-stock-message-box" style="position: absolute; z-index: 3000">
+  <div class="message-box" id="quote-stock-succeeded-message" style="display: none">
+    <p>引用をストックしました</p>
+    <button class="btn btn-primary" id="quote-stock-show-editor-button" data-track-name="curation-quote-edit-button">ストック一覧を見る</button>
+    <button class="btn quote-stock-close-message-button">閉じる</button>
+  </div>
+
+  <div class="message-box" id="quote-login-required-message" style="display: none">
+    <p>引用するにはまずログインしてください</p>
+    <button class="btn btn-primary" id="quote-login-button">ログイン</button>
+    <button class="btn quote-stock-close-message-button">閉じる</button>
+  </div>
+
+  <div class="error-box" id="quote-stock-failed-message" style="display: none">
+    <p>引用をストックできませんでした。再度お試しください</p>
+    <button class="btn quote-stock-close-message-button">閉じる</button>
+  </div>
+
+  <div class="error-box" id="unstockable-quote-message-box" style="display: none; position: absolute; z-index: 3000;">
+    <p>限定公開記事のため引用できません。</p>
+  </div>
+</div>
+
+<script type="x-underscore-template" id="js-requote-button-template">
+  <div class="requote-button js-requote-button">
+    <button class="requote-button-btn tipsy-top" title="引用する"><i class="blogicon-quote"></i></button>
+  </div>
+</script>
+
+
+
+    
+    <div id="hidden-subscribe-button" style="display: none;">
+      <div class="hatena-follow-button-box btn-subscribe js-hatena-follow-button-box"
+  
+  >
+
+  <a href="#" class="hatena-follow-button js-hatena-follow-button">
+    <span class="subscribing">
+      <span class="foreground">読者です</span>
+      <span class="background">読者をやめる</span>
+    </span>
+    <span class="unsubscribing" data-track-name="profile-widget-subscribe-button" data-track-once>
+      <span class="foreground">読者になる</span>
+      <span class="background">読者になる</span>
+    </span>
+  </a>
+  <div class="subscription-count-box js-subscription-count-box">
+    <i></i>
+    <u></u>
+    <span class="subscription-count js-subscription-count">
+    </span>
+  </div>
+</div>
+
+    </div>
+
+    
+  <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+
+<script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+
+
+<script type="text/javascript" src="https://cdn.blog.st-hatena.com/js/external/jquery.min.js?version=1.12.4"></script>
+<script type="text/javascript" src="https://cdn.blog.st-hatena.com/js/external/jquery.flot.js?version=0.8.3"></script>
+<script type="text/javascript" src="https://cdn.blog.st-hatena.com/js/external/jquery.flot.time.js?version=0.8.3"></script>
+<script id="vendor-js" data-env="production" type="text/javascript" src="https://cdn.blog.st-hatena.com/js/vendor.js?version=bc46b1d7c26c1f8f2707a171ec68ae6ac02de1f5&amp;env=production" crossorigin="anonymous"></script>
+
+
+
+
+
+<script type="text/javascript" src="https://cdn.blog.st-hatena.com/js/texts-ja.js?version=9a7cc2ab5bbb3ecbf5ba6f7066fc74df8f7654dc&amp;env=production"></script>
+<script id="hatenablog-js" data-env="production"
+  type="text/javascript" src="https://cdn.blog.st-hatena.com/js/hatenablog.js?version=3607b1717e3dad4412a5957c0dda322efa5a6ee8&amp;env=production" crossorigin="anonymous"></script>
+
+
+  <script type="text/javascript">Hatena.Diary.GlobalHeader.init()</script>
+
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+  </body>
+</html>
+
